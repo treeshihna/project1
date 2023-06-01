@@ -20,7 +20,7 @@ The runprog.sh script should run with the following command:
 
 where run_file is an input file containing n lines where each line is an entry of the format:
 
-<options> input_file
+prog_name <options> input_file
 
 The script should run prog_name in the background, should redirect both the stderr and and stdout from run i to a file named prog_name_run_i.txt. A file named prog_name_PIDs.txt should be created that contains a list of the PIDs for each run, each on a separate line.
 
