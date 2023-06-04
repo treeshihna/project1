@@ -1,0 +1,4 @@
+./isleep.sh text1.txt
+./isleep.sh text2.txt
+./isleep.sh text3.txt
+./isleep.sh text1.txt
