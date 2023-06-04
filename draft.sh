@@ -14,13 +14,7 @@ else
 	printf "file %s not found\n" $1 > /dev/stderr
     else
 	i=1 #number of run
-	
-	if [ $i -eq 1 ] && [ -f "$prog_name"_PIDs.txt ]
-        then
-            rm "$prog_name"_PIDs.txt
-        fi
-	echo " " >> $1
-       	while read -r line #go through each line
+       	while read -r line || [ -n "$line" ] #go through each line if the last line is not empty
 	do
 	    prog_name="$(echo "$line" | awk '{print $1}')"
 	    input_file="$(echo "$line" | awk '{print $NF}')"
@@ -32,6 +26,9 @@ else
 	    then
 		printf "line %d: file %s not found\n" $i $input_file > /dev/stderr
 	    else
+		if [ $i -eq 1 ] && [ -f "$prog_name"_PIDs.txt ]
+		then rm "$prog_name"_PIDs.txt #update PIDs when start over
+		fi
 		$line >"$prog_name"_run_"$i".txt 2>&1 & #run line in background and redirect stdout/err
 		echo "line$i's PID: $!" >>"$prog_name"_PIDs.txt #print PIDs for each run
 	    fi

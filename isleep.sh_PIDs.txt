@@ -1,8 +1,0 @@
-line1's PID: 27600
-line2's PID: 27608
-line3's PID: 27616
-line4's PID: 27624
-line1's PID: 27708
-line2's PID: 27716
-line3's PID: 27724
-line4's PID: 27732

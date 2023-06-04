@@ -1,44 +1,38 @@
 #!/bin/bash
-# runjob [command] -a [cmd args] -n [no jobs to run]
 
-if [[ $# -le 2 ]] || [[ $# -ge 6 ]] # check number of arguments >=3 and <6
+#./runprog.sh run_file
+#run_file contains n lines where each line is an entry of the prog_name <options> input_file
+
+run_file=$1 
+
+if [[ $# -ne 1 ]] #check for correct input
 then
-    printf "runjob: wrong number of arguments...\n" > /dev/stderr
+    printf "wrong number of arguments\n" > /dev/stderr
 else
-    cmd=$1
-    if [[ $# -eq 3 ]]
+    if ! [[ -f $1 ]] #check if input file exists
     then
-    if [[ $2 = "-n" ]] # no arguments
-    then
-        numexec=$3
+	printf "file %s not found\n" $1 > /dev/stderr
     else
-        if [[ $2 = "-a" ]] # arguments with default numexec=1
-        then
-        args=$3
-        numexec=1 # execute program once by default
-        else
-        printf "runjob: unknown option =  %s\n" $2  > /dev/stderr # option not recognized
-        exit
-        fi
+	i=1 #number of run
+       	while read -r line || [ -n "$line" ] #go through each line if the last line is not empty
+	do
+	    prog_name="$(echo "$line" | awk '{print $1}')"
+	    input_file="$(echo "$line" | awk '{print $NF}')"
+	    if ! [[ -x $prog_name ]] #check prog_name exists and is executable
+	    then
+		printf "line %d: %s not found or not executable\n" $i $prog_name > /dev/stderr
+		
+	    elif ! [[ -f $input_file ]] #check input_file exists
+	    then
+		printf "line %d: file %s not found\n" $i $input_file > /dev/stderr
+	    else
+		if [ $i -eq 1 ] && [ -f "$prog_name"_PIDs.txt ]
+		then rm "$prog_name"_PIDs.txt #update PIDs when start over
+		fi
+		$line >"$prog_name"_run_"$i".txt 2>&1 & #run line in background and redirect stdout/err
+		echo "line$i's PID: $!" >>"$prog_name"_PIDs.txt #print PIDs for each run
+	    fi
+	    i=$((i+1)) #go to the next run
+	done < $1
     fi
-    else
-    if ! [[ $2 = "-a" ]] # check second argument is args 
-    then
-        printf "options: second argument %s should be -a\n" $2  > /dev/stderr
-        exit
-    fi
-    if ! [[ $4 = "-n" ]] # check fourth argument is numexec
-    then
-        printf "options: fourth argument %s should be -n\n" $4  > /dev/stderr
-        exit
-    fi
-    args=$3
-    numexec=$5
-    fi
-    echo "Job IDs:" > jobpids.txt 
-    for (( jobnum=1; jobnum<=numexec; jobnum++))
-    do
-    $cmd $args 2>&1 > run$jobnum.txt &
-    echo $! >> jobpids.txt  # save PIDs for jobs
-    done
 fi
