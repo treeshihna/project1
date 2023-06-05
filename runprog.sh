@@ -19,7 +19,7 @@ else
 	    input_file="$(echo "$line" | awk '{print $NF}')"
 	    if ! [[ -x $prog_name ]] #check prog_name exists and is executable
 	    then
-		printf "line %d: %s not found or not executable\n" $i $prog_name > /dev/stderr
+		printf "line %d: program %s not found or not executable\n" $i $prog_name > /dev/stderr
 		
 	    elif ! [[ -f $input_file ]] #check input_file exists
 	    then
