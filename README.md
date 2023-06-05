@@ -4,7 +4,7 @@ Purpose:
 
 The script runprog.sh will run a program n times. Assume the program takes one input file prints its result to stdout and is run with the following command:
 
-prog_name <options> input_file
+prog_name [options] input_file
 
 where options may include any number of options. For example,
 
@@ -20,7 +20,7 @@ The runprog.sh script should run with the following command:
 
 where run_file is an input file containing n lines where each line is an entry of the format:
 
-prog_name <options> input_file
+prog_name [options] input_file
 
 The script should run prog_name in the background, should redirect both the stderr and and stdout from run i to a file named prog_name_run_i.txt. A file named prog_name_PIDs.txt should be created that contains a list of the PIDs for each run, each on a separate line.
 
