@@ -13,7 +13,7 @@ else
 	printf "File %s not found\n" $1 > /dev/stderr
     else
 	i=1 #number of run
-       	while read -r line || [ -n "$line" ] #go through each line if the last line is not empty
+       	while read -r line #read the file line by line
 	do
 	    prog_name="$(echo "$line" | awk '{print $1}')"
 	    input_file="$(echo "$line" | awk '{print $NF}')"
