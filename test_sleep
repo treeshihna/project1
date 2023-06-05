@@ -1,5 +1,4 @@
-./isleep.sh 5s text1.txt
-./isleep.sh 6s text2.txt
-./isleep.sh 10s text3.txt
-./isleep.sh text1.txt
-./isleep.sh text3.txt
+./sleepecho.sh K text2.txt
+./sleepecho.sh 1s haha.txt
+./haha 1s text1.txt
+./sleepecho.sh 1s text3.txt

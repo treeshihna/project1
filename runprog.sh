@@ -1,17 +1,16 @@
 #!/bin/bash
 
 #./runprog.sh run_file
-#run_file contains n lines where each line is an entry of the prog_name <options> input_file
-
-run_file=$1 
+#run_file contains n lines where each line is prog_name <options> input_file
 
 if [[ $# -ne 1 ]] #check for correct input
 then
-    printf "wrong number of arguments\n" > /dev/stderr
+    printf "Wrong number of arguments\n" > /dev/stderr
 else
+    run_file=$1
     if ! [[ -f $1 ]] #check if input file exists
     then
-	printf "file %s not found\n" $1 > /dev/stderr
+	printf "File %s not found\n" $1 > /dev/stderr
     else
 	i=1 #number of run
        	while read -r line || [ -n "$line" ] #go through each line if the last line is not empty
